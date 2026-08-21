@@ -16,7 +16,7 @@ function selectionSort(vetor, fnComp) {
     comps++;
     if (fnComp(vetor[posSel], vetor[posMenor])) {
       [vetor[posSel], vetor[posMenor]] = [vetor[posMenor], vetor[posSel]];
-      trocas++
+      trocas++  
     }
   }
 }
