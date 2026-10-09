@@ -56,7 +56,7 @@ export default class BinarySearchTree {
       //3º caso: o valor a ser inserido é IGUAL ao valor da raiz;
       //senão, reinicia o processo de inserção, recursivamente, com a subárvore esquerda como raiz
     } else {
-      this.#insertNode(inserted, root.left);
+      return;
     }
   }
 
@@ -92,4 +92,87 @@ export default class BinarySearchTree {
       this.preOrderTraversal(fnCallback, root.right); //3º
     }
   }
+
+  /**/
+
+  postOrderTraversal(fnCallback, root = this.#root) {
+    if (root !== null) {
+      this.preOrderTraversal(fnCallback, root.left); //1º
+      this.preOrderTraversal(fnCallback, root.right); //2º
+      fnCallback(root.data); //3º
+
+    }
+  }
+
+  /*Metédo privado que retorna o modo de menor valor da árvore*/
+  #minNode(root){
+    while(root !== null && root.left !== null){
+      root = root.left
+    }
+    return root
+  }
+
+  #maxNode(root){
+    while(root !== null && root.right !== null){
+      root = root.right
+    }
+    return root
+  }
+
+  /*Métedo publico para excluir um modo da árvore*/
+  remove(root){
+    this.#root = this.#removeNode(this.#root, val);
+  }
+
+  /*Métedo privado para excluir um modo da árvore*/
+  #removeNode(root,val){
+    //1ª caso: arvore vazia
+    if(root == null){
+      return null
+    }
+
+    //2ª caso: o valor a ser excluído é menor que o valor da raiz
+    //continua recusivamente o precesso da exclusão pela subarvore esquerda
+
+    if(val < root.data){
+      root.left = this.#removeNode(root.left, val)
+      return root;
+    }
+
+    //3ª caso: o valor a ser excluído é maior que o valor da raiz
+    //continua recusivamente o precesso da exclusão pela subarvore direita
+
+     if(val < root.data){
+      root.right = this.#removeNode(root.right, val)
+      return root;
+    }
+
+    /*4ª caso: o valor a ser excluido é igual ao valor da raiz
+      o nodo a ser excluído foi encontrado, é necessario, agora verificar
+      o grau desse nodo para aplicar o algoritmo de exclusão apropriado
+    */
+
+    /*4.1: nodo de grau 0(nodo folha)*/    
+    if(root.left === null && root.right === null){
+      root = null;
+      return root;
+    }
+
+    /*4.2: nodo de grau 1, com subarvore a esquerda*/
+    if(root.left !== null && root.right === null){
+      root = root.left
+      return root;
+    }
+
+    /*4.3: nodo de grau 1, com subarvore a direita*/
+    if(root.left === null && root.right !== null){
+      root = root.right
+      return root;
+    }
+
+  }
 }
+
+
+
+
